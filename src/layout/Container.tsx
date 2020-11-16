@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-import Head from '../components/Head';
+import Head from '../components/Head/index';
 // eslint-disable-next-line import/first
 import { Button } from '@material-ui/core';
 import Phone from './Phone';
@@ -43,8 +43,9 @@ export default function Container() {
   const [values, setValues] = React.useState({
     phoneNumber: '',
   });
-  const handleChange = (name: string) => (event: Event) => {
-    setValues({ ...values, [name]: event.target.value });
+  const handleChange = (name: string) => (event: ChangeEvent) => {
+    const value = (event.target as any).value
+    setValues({ ...values, [name]: value });
   };
   function generateRandomNumber() {
     const randomNumber = random(10);
