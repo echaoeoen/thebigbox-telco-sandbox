@@ -5,7 +5,7 @@ import smsController  from './controllers/sms'
 export const router = (c: ConfigProvider, m: CoreManager) => {
   const r = Router()
   const smsCtrl = smsController(c, m)
-  r.post(`/message`, smsCtrl.sendSMS)
+  r.post(`/sms/v2/reg/sendsms.json`, smsCtrl.sendSMS)
   return r
 }
 

@@ -1,12 +1,12 @@
-import React, { ChangeEvent } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
-import Head from '../components/Head/index';
+import React, { ChangeEvent, FC, ReactElement } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
+import TextField from '@material-ui/core/TextField'
+import Paper from '@material-ui/core/Paper'
+import Head from '../components/Head/index'
 // eslint-disable-next-line import/first
-import { Button } from '@material-ui/core';
-import Phone from './Phone';
+import { Button } from '@material-ui/core'
+import Phone from './Phone'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,34 +23,41 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1)
   },
-}));
+}))
 function random(length: number) {
-  let result = '';
-  const characters = '0123456789';
-  const charactersLength = characters.length;
+  let result = ''
+  const characters = '0123456789'
+  const charactersLength = characters.length
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    result += characters.charAt(Math.floor(Math.random() * charactersLength))
   }
-  return result;
+  return result
 }
 
-export default function Container() {
+export interface ContainerProps {
+  children: ReactElement
+}
+const Container: FC<ContainerProps> = ({children}) => {
   // eslint-disable-next-line no-unused-vars
-  const [spacing, setSpacing] = React.useState(2);
-  const classes = useStyles();
+  const [spacing, setSpacing] = React.useState(2)
+  const classes = useStyles()
 
   const [values, setValues] = React.useState({
     phoneNumber: '',
-  });
+    email: ''
+  })
   const handleChange = (name: string) => (event: ChangeEvent) => {
     const value = (event.target as any).value
-    setValues({ ...values, [name]: value });
-  };
+    setValues({ ...values, [name]: value })
+  }
   function generateRandomNumber() {
-    const randomNumber = random(10);
-    setValues({ ...values, phoneNumber: `08${randomNumber}` });
-    //   console.log(values)
+    const randomNumber = random(10)
+    setValues({ ...values, phoneNumber: `08${randomNumber}` })
+  }
+  function generateRandomEmail(){
+    const randomEmail = random(5)
+    setValues({...values, email: `${randomEmail}@mailtest.com`})
   }
   return (
     <Grid container className={classes.root} spacing={10}>
@@ -78,16 +85,34 @@ export default function Container() {
                 <Button variant="contained" cy-data="button-generate" color="primary" onClick={generateRandomNumber}>
                     Random Number
                 </Button>
+                <Grid>
+                  <TextField
+                    id="standard-name"
+                    label="Email"
+                    className={classes.textField}
+                    value={values.email}
+                    disabled
+                    onChange={handleChange('email')}
+                    margin="normal"
+                    cy-data="txt-email"
+                  />
 
+                </Grid>
+                <Button variant="contained" cy-data="button-generate" color="primary" onClick={generateRandomEmail}>
+                    Random Email
+                </Button>
               </div>
             </Paper>
           </Grid>
           <Grid spacing={10} >
             Phone
-            <Phone phoneNumber={values.phoneNumber} />
+            <Phone>
+              {children}
+            </Phone>
           </Grid>
         </Grid>
       </Grid>
     </Grid>
-  );
+  )
 }
+export default Container

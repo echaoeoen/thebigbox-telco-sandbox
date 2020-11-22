@@ -1,7 +1,7 @@
-import { Request, Response } from "express";
-import CoreManager from "../../../core/core.manager";
-import { SMS } from "../../../core/sms";
-import ConfigProvider from "../../../driver/config";
+import { Request, Response } from "express"
+import CoreManager from "../../../core/core.manager"
+import { SMS } from "../../../core/sms"
+import ConfigProvider from "../../../driver/config"
 
 export const smsParam = {
 
@@ -9,9 +9,9 @@ export const smsParam = {
 
 export const getSMSBody = (r: Request): SMS => {
   return {
-    content: r.body.content,
+    content: r.body.message,
     msisdn: r.body.msisdn,
-    sender: r.headers['X-Sender-ID'] as string
+    sender: r.body.sender
   }
 }
 export const smsController = (c: ConfigProvider, m: CoreManager) => ({

@@ -1,4 +1,4 @@
-import SMSManager from "./sms";
+import SMSManager from "./sms"
 
 export interface CoreManager {
   smsManager(): SMSManager

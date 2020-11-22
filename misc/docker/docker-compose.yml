@@ -1,0 +1,20 @@
+version: '3.4'
+services: 
+  telco-sandbox:
+    image: ${IMAGE_NAME}:${IMAGE_VERSION}
+  proxy:
+    image: dannydirect/tinyproxy:latest
+    restart: unless-stopped
+    ports:
+      - 82:8888
+    command: ANY
+  telco-sandbox-proxy:
+    image: abiosoft/caddy:0.11.1
+    restart: on-failure
+    entrypoint: /bin/sh
+    command: -c 'echo "$$CADDY_CONF" | caddy -conf stdin'
+    networks:
+      default:
+        aliases:
+          - telco-sandbox.internal
+  

@@ -1,0 +1,46 @@
+version: '3.4'
+services: 
+  telco-sandbox:
+    image: ${IMAGE_NAME}:dev
+    build: 
+      context: ../../
+      dockerfile: ./misc/docker/dockerfile
+      target: builder
+    restart: unless-stopped
+    environment: 
+      - NODE_ENV=development
+    volumes:
+      - ../../:${PWD}/../..
+      - node_modules:${PWD}/../../node_modules
+    command: bash -c "npm run serve:dev"
+  telco-sandbox-react:
+    image: ${IMAGE_NAME}:dev
+    build: 
+      context: ../../
+      dockerfile: ./misc/docker/dockerfile
+      target: builder
+    restart: unless-stopped
+    environment: 
+      - NODE_ENV=development
+    volumes:
+      - ../../:${PWD}/../..
+      - node_modules:${PWD}/../../node_modules
+    command: bash -c "npm rebuild node-sass && npm start"
+  telco-sandbox-proxy:
+    environment:
+      CADDY_CONF: |
+        :80 {
+          proxy / admin-portal:3000
+        }
+        :443 {
+          tls self_signed
+          proxy / telco-sandbox-react:3000
+          proxy /socket.io telco-sandbox:80
+        }
+    entrypoint: /bin/sh
+    command: -c 'echo "$$CADDY_CONF" | caddy -conf stdin'
+    networks:
+      default:
+        aliases:
+          - telco-sandbox.internal
+  

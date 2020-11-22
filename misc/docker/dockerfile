@@ -1,0 +1,35 @@
+#################
+# Builder Image #
+#################
+FROM node:12.9.1-alpine as builder
+
+# install build-tools
+RUN apk add --no-cache git build-base python bash
+
+WORKDIR /src/app
+COPY . .
+
+
+RUN npm install -g npm@latest
+RUN npm install -g nodemon
+RUN npm install
+
+
+RUN npm rebuild node-sass
+ENV NEXE_PLATFORM=alpine
+RUN npm run pkg
+
+#################
+# Final Image #
+#################
+FROM alpine:latest
+
+RUN \
+    apk update &&\
+    apk add --no-cache libstdc++ libgcc
+
+ENV NODE_ENV production
+
+COPY --from=builder /src/app/.bin/thebigbox-api-telco-sandbox /usr/local/bin/thebigbox-api-telco-sandbox
+
+ENTRYPOINT [ "thebigbox-api-telco-sandbox" ]

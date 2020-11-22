@@ -1,6 +1,6 @@
-import ConfigProvider from "../driver/config";
-import CoreManager from "./core.manager";
-import SMSManager from "./sms";
+import ConfigProvider from "../driver/config"
+import CoreManager from "./core.manager"
+import SMSManager from "./sms"
 
 export default class CoreManagerDefault implements CoreManager {
   _smsManager: SMSManager

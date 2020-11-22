@@ -1,7 +1,7 @@
-import ConfigProvider, { Config } from "./config";
-import { Driver } from "./driver";
-import Registry from "./driver.registry";
-import RegistryDefault from "./driver.registry.default";
+import ConfigProvider, { Config } from "./config"
+import { Driver } from "./driver"
+import Registry from "./driver.registry"
+import RegistryDefault from "./driver.registry.default"
 
 export default class DriverDefault implements Driver {
   private c: ConfigProvider
@@ -17,7 +17,7 @@ export default class DriverDefault implements Driver {
     return this.r
   }
   callRegistry(): Driver {
-    throw new Error("Method not implemented.");
+    throw new Error("Method not implemented.")
   }
 
 }

@@ -1,10 +1,10 @@
-import CoreManager from "../core/core.manager";
-import CoreManagerDefault from "../core/core.manager.default";
-import HandlerProvider from "../handler/provider";
-import SMSLib from "../lib/sms/sms";
-import ConfigProvider from "./config";
-import Registry from "./driver.registry";
-import RegistryBase from "./driver.registry.base";
+import CoreManager from "../core/core.manager"
+import CoreManagerDefault from "../core/core.manager.default"
+import HandlerProvider from "../handler/provider"
+import SMSLib from "../lib/sms/sms"
+import ConfigProvider from "./config"
+import Registry from "./driver.registry"
+import RegistryBase from "./driver.registry.base"
 
 
 export class RegistryDefault extends RegistryBase implements Registry {

@@ -1,21 +1,23 @@
-import CoreManager from "../../core/core.manager";
-import ConfigProvider from "../../driver/config";
-import HandlerProvider from "../provider";
-import express, {Express} from 'express'
-import router from "./routes";
-import socket from "./socket";
-import http from 'http'
+import CoreManager from "../../core/core.manager"
+import ConfigProvider from "../../driver/config"
+import HandlerProvider from "../provider"
+import express from 'express'
+import router from "./routes"
+import socket from "./socket"
+import {Server, createServer} from 'http'
 export default class HttpHandler implements HandlerProvider{
   m: CoreManager
   c: ConfigProvider
-  app: Express
+  app: Server
   constructor(m: CoreManager, c: ConfigProvider) {
     this.m = m
     this.c = c
-    this.app = express()
+    const app = express()
+    app.use(`/`, router(c, m))
+
     const socketSvc = socket(c, ...m.smsManager().handlers())
-    socketSvc(new http.Server(this.app))
-    this.app.use(`/`, router(c, m))
+    this.app = createServer(app)
+    socketSvc(this.app)
   }
   serve(): void {
     this.app.listen(this.c.listenPort(), this.c.listenHost(), () => {
