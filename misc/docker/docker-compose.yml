@@ -2,6 +2,8 @@ version: '3.4'
 services: 
   telco-sandbox:
     image: ${IMAGE_NAME}:${IMAGE_VERSION}
+    environment: 
+      DSN: redis://redis:6379/1
   proxy:
     image: dannydirect/tinyproxy:latest
     restart: unless-stopped
@@ -17,4 +19,6 @@ services:
       default:
         aliases:
           - telco-sandbox.internal
-  
+  redis:
+    image: redis:6.0.9-alpine
+    restart: on-failure

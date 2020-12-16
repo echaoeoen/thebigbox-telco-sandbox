@@ -5,4 +5,6 @@ export interface ConfigProvider {
   logger(): BaseLogger
   appName(): string
   defaultSender(): string
+  DSN(): string
+  DBProtocol(): string
 }

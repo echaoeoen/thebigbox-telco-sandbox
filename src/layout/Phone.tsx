@@ -11,9 +11,13 @@ export interface PhoneProps {
 }
 
 export interface SMS{
-  msisdn: string
-  content: string
-  sender: string
+  from: string
+  message: string
+}
+
+export interface Voice{
+    caller: string
+    content: string
 }
 
 const Phone: FC<PhoneProps> = ({children}) => {
@@ -21,6 +25,11 @@ const Phone: FC<PhoneProps> = ({children}) => {
   const _back = () => {
     if(history.location.pathname !== '/home') history.goBack()
   }
+  
+  const _goHome = () => {
+    history.push('/home')
+  }
+  
   return (
   <React.Fragment>
     <Paper style={{ 
@@ -48,7 +57,7 @@ const Phone: FC<PhoneProps> = ({children}) => {
         <Button onClick={_back}>
           <BackIcon style={{color: '#fff'}}/>
         </Button>
-        <Button>
+        <Button onClick={_goHome}>
           <HomeIcon style={{color: '#fff'}}/>
         </Button>
         <Button>

@@ -2,6 +2,8 @@ import React, { createContext, useReducer, useContext, ReactElement, Dispatch, u
 import { useLocation } from 'react-router-dom'
 import { InitialStates, DispatchState } from './constants'
 import {isEqual} from 'lodash'
+import useDeepCompareEffect from 'use-deep-compare-effect'
+
 const GlobalContext = createContext(InitialStates)
 const DispatchContext = createContext(DispatchState)
 
@@ -13,6 +15,13 @@ export const useQuery = () => {
   return new URLSearchParams(useLocation().search)
 }
 
+export interface ObjectValueOf<T> {
+  [key: string]: T
+}
+export interface ArrayKeyOf<T> {
+  key: string
+  data: T[]
+}
 export const useDeepEffect = (func: Function, dependencies: Array<Object>) => {
   const isFirst = useRef(true)
   const prevDeps = useRef(dependencies)
@@ -56,7 +65,7 @@ export function useGlobalState<Type>(k: string, v?: Type): [Type, Dispatch<Type>
   }
   const val: Type = (state as any)[k] || v
   const [localState, setLocalState] = useState(val)
-  useDeepEffect(() => {
+  useDeepCompareEffect(() => {
     setState(k, localState)
   }, [localState])
 

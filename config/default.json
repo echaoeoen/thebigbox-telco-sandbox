@@ -2,5 +2,9 @@
   "listen": {
     "port": 80,
     "host": "0.0.0.0"
+  },
+  "dsn": null,
+  "default": {
+    "sender": "TELKOM"
   }
 }

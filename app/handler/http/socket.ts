@@ -9,7 +9,27 @@ const socket = (c: ConfigProvider, ...handlers: HandlerItem[]) =>  (server: Serv
       const element = handlers[p]
       socket.on(element.event, element.handler(socket))
     }
+    socket.on('join', (room: string) => {
+      c.logger().info({
+        socket_id: socket.id,
+        room,
+        message: 'join-room'
+      })
+      socket.join(room)
+      socket.emit('joined', room)
+    })
+
+    socket.on('leave', (room: string) => {
+      c.logger().info({
+        socket_id: socket.id,
+        room,
+        message: 'leave-room'
+      })
+      socket.leave(room)
+      socket.emit('leaved', room)
+    })
   })
+
 }
 
 export default socket

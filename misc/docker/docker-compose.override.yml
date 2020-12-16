@@ -30,7 +30,13 @@ services:
     environment:
       CADDY_CONF: |
         :80 {
-          proxy / admin-portal:3000
+          proxy / telco-sandbox-react:3000
+          proxy /socket.io telco-sandbox:80 {
+            websocket
+          }
+          proxy /sockjs-node telco-sandbox-react:3000 {
+            websocket
+          }
         }
         :443 {
           tls self_signed

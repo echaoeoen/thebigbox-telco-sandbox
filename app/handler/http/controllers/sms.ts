@@ -9,7 +9,7 @@ export const smsParam = {
 
 export const getSMSBody = (r: Request): SMS => {
   return {
-    content: r.body.message,
+    content: r.body.message || r.body.content,
     msisdn: r.body.msisdn,
     sender: r.body.sender
   }
@@ -20,7 +20,9 @@ export const smsController = (c: ConfigProvider, m: CoreManager) => ({
     await m.smsManager().send(sms)
     c.logger().info(`success send sms`, sms)
     w.status(201).send({
-      message: 'success'
+      msgId: (new Date()).getTime(),
+      status: true,
+      message: 'Your message has been sent.'
     })
   }
 }) 

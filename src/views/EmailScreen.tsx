@@ -1,8 +1,10 @@
 import React, { FC } from "react"
-
-const EmailScreen: FC<any> = ({}) => {
+import EmailList from '../components/Email'
+const EmailScreen: FC = () => {
   return (
-    <></>
+    <>
+      <EmailList/>
+    </>
   )
 }
 

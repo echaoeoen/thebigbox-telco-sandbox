@@ -2,5 +2,9 @@
   "listen": {
     "port": "LISTEN_PORT",
     "host": "LISTEN_HOST"
+  },
+  "dsn": "DSN",
+  "default": {
+    "sender": "DEFAULT_SENDER"
   }
 }
