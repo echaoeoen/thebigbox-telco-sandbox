@@ -1,31 +1,12 @@
 version: '3.4'
 services: 
   telco-sandbox:
-    image: ${IMAGE_NAME}:dev
     build: 
       context: ../../
       dockerfile: ./misc/docker/dockerfile
-      target: builder
     restart: unless-stopped
     environment: 
-      - NODE_ENV=development
-    volumes:
-      - ../../:${PWD}/../..
-      - node_modules:${PWD}/../../node_modules
-    command: bash -c "npm run serve:dev"
-  telco-sandbox-react:
-    image: ${IMAGE_NAME}:dev
-    build: 
-      context: ../../
-      dockerfile: ./misc/docker/dockerfile
-      target: builder
-    restart: unless-stopped
-    environment: 
-      - NODE_ENV=development
-    volumes:
-      - ../../:${PWD}/../..
-      - node_modules:${PWD}/../../node_modules
-    command: bash -c "npm rebuild node-sass && npm start"
+      - NODE_ENV=production
   telco-sandbox-proxy:
     environment:
       CADDY_CONF: |

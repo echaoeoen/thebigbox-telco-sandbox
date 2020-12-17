@@ -17,7 +17,6 @@ RUN npm install
 
 RUN npm rebuild node-sass
 ENV NEXE_PLATFORM=alpine
-RUN npm run build:client
 RUN npm run pkg
 
 #################
@@ -29,7 +28,11 @@ RUN \
     apk update &&\
     apk add --no-cache libstdc++ libgcc
 
+ENV NODE_CONFIG_DIR /etc/thebigbox-api-telco-sandbox
 ENV NODE_ENV production
+
+COPY ./config ${NODE_CONFIG_DIR}
+
 
 COPY --from=builder /src/app/.bin/thebigbox-api-telco-sandbox /usr/local/bin/thebigbox-api-telco-sandbox
 
